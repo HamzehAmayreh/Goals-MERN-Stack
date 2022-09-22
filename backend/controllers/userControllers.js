@@ -33,6 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: createdUser.id,
       name: createdUser.name,
       email: createdUser.email,
+      token: GenerateToken(createdUser._id), //edit this if it doesn't work with createduser._id
     });
   } else {
     res.status(400);
@@ -52,6 +53,7 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: GenerateToken(user._id), //edit this if it doesn't work with createduser._id
     });
   } else {
     res.status(400);
@@ -61,10 +63,24 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // @Desc Resgister User
 // @Route GET /api/me
-// @Access Public
+// @Access Private
 
 const getMe = asyncHandler(async (req, res) => {
-  res.json({ Message: "user display data" });
+  const { _id, name, email } = await User.findById(req.user._id);
+
+  res.status(200).json({
+    id: _id,
+    name: name,
+    email: email,
+  });
 });
+
+//Generate JWT
+
+const GenerateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
 
 module.exports = { registerUser, loginUser, getMe };
