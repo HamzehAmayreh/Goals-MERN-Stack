@@ -7,6 +7,7 @@ const {
   updateGoals,
   deleteGoals,
 } = require("../controllers/goalControllers");
+
 const { protect } = require("../middleware/authMiddleware");
 router.route("/").get(protect, getGoals).post(protect, setGoals);
 
