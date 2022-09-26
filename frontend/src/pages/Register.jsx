@@ -12,6 +12,11 @@ function Register() {
   const { name, email, password, password2 } = formData;
 
   const onChange = (e) => {
+    //* without this block of code the user won't be able to write anything in the form
+
+    //* e is the input from the form so when
+    //* we write in email the name will be email and the e.target.value will be the
+    //* value the user add in the form
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
