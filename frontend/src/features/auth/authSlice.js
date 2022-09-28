@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import authService from "./authService";
 //Get user from localStorage
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -10,7 +10,22 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-
+export const register = createAsyncThunk(
+  "auth/register",
+  async (user, thunkAPI) => {
+    try {
+      return await authService.register(user);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.date &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -22,7 +37,25 @@ export const authSlice = createSlice({
       state.message = "";
     },
   },
-  extraReducers: () => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(register.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload; //because in our thunk func we set our catch to send a string to it will bring that
+        state.user = null;
+      });
+    //* in these cases pending/fullfiled/rejected it is handeled automatically rather than
+    //* handling them indivuallay, and that done by redux
+  },
 });
 
 export const { reset } = authSlice.actions;
