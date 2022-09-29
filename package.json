@@ -7,7 +7,12 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
+<<<<<<< HEAD
     "dev": "concurrently \"npm run server\" \"npm run client \""
+=======
+    "dev":"concurrently \"npm run server\" \" npm run client \""
+    
+>>>>>>> 1448253feba83abea4cdd869df17c8b6068bdb5c
   },
   "keywords": [],
   "author": "",

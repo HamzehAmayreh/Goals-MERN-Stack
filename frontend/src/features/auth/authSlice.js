@@ -10,7 +10,10 @@ const initialState = {
   isLoading: false,
   message: "",
 };
+<<<<<<< HEAD
 //Register user
+=======
+>>>>>>> 1448253feba83abea4cdd869df17c8b6068bdb5c
 export const register = createAsyncThunk(
   "auth/register",
   async (user, thunkAPI) => {
@@ -27,6 +30,7 @@ export const register = createAsyncThunk(
     }
   }
 );
+<<<<<<< HEAD
 //Login user
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
@@ -42,6 +46,8 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
+=======
+>>>>>>> 1448253feba83abea4cdd869df17c8b6068bdb5c
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -68,6 +74,7 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload; //because in our thunk func we set our catch to send a string to it will bring that
         state.user = null;
+<<<<<<< HEAD
       })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
@@ -85,6 +92,8 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+=======
+>>>>>>> 1448253feba83abea4cdd869df17c8b6068bdb5c
       });
     //* in these cases pending/fullfiled/rejected it is handeled automatically rather than
     //* handling them indivuallay, and that done by redux
